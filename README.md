@@ -1,6 +1,6 @@
 # openweathermap
 
-That's a sample project showing how to consume the openweathermap API.
+This's a sample project showing how to consume the openweathermap API.
 
 *Core Dependencies: Google Maps API, Room, Volley, AndroidX and Coroutines.*
 
@@ -10,7 +10,8 @@ That's a sample project showing how to consume the openweathermap API.
 - Bookmark a location
 - Visualize all bookmarked locations in the map
 - Remove a bookmark
-- **DARK** Mode
+- Data Cache
+- **DARK Mode 🤘🏻**
 
 ## TODO LIST
 - One way data flow between Ui and ViewModel (implement a state reducer)
