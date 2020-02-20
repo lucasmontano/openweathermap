@@ -40,7 +40,7 @@ class WeatherApiService {
             continuation.resume(it.toString())
         },
         Response.ErrorListener {
-            throw it
+            // TODO handle connection errors
         }) {
         //TODO override headers here for example auth
     }
