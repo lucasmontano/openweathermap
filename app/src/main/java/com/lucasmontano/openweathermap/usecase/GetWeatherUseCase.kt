@@ -1,16 +1,13 @@
 package com.lucasmontano.openweathermap.usecase
 
 import com.google.gson.Gson
-import com.lucasmontano.openweathermap.core.network.ApiUrls
-import com.lucasmontano.openweathermap.core.network.VolleyHelper
 import com.lucasmontano.openweathermap.model.dto.CityNetworkDto
+import com.lucasmontano.openweathermap.service.network.WeatherApiService
 
-class GetWeatherUseCase {
+class GetWeatherUseCase(private val weatherApiService: WeatherApiService) {
 
     suspend fun execute(lat: Double, lon: Double): CityNetworkDto {
-        val url = ApiUrls.coordinates.format(lat.toString(), lon.toString())
-        val response = VolleyHelper.get(url)
-
+        val response = weatherApiService.byGeoCoordinates(lat, lon)
         return Gson().fromJson(response, CityNetworkDto::class.java)
     }
 }
