@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -34,12 +33,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addMap()
-        mapViewModel.refreshPinForecast(52.0, 4.0)
     }
 
     private fun addMap() {
         val mapFragment = SupportMapFragment.newInstance()
-        val fragmentTransaction: FragmentTransaction = fragmentManager!!.beginTransaction()
+        val fragmentTransaction: FragmentTransaction = parentFragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.mapContainerLayout, mapFragment)
         fragmentTransaction.commit()
         mapFragment.getMapAsync(this)
@@ -52,8 +50,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
         mMap.setOnCameraIdleListener(this)
 
         mapViewModel.pinForecastLiveData.observe(this, Observer {
-            val coord = LatLng(it.lat, it.lon)
-            mMap.addMarker(MarkerOptions().position(coord).title(it.name))
+            mMap.addMarker(
+                MarkerOptions().position(LatLng(it.lat, it.lon)).title(it.name)
+            ).apply {
+                snippet = "${it.weatherDescription} ( ${it.temp} )"
+                showInfoWindow()
+            }
         })
     }
 

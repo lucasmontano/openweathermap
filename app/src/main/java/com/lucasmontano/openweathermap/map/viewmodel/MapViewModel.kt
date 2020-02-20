@@ -21,7 +21,8 @@ class MapViewModel(private var getWeatherUseCase: GetWeatherUseCase): ViewModel(
                     threeHourlyRainVolume = it.rain?.threeHourlyVolume,
                     threeHourlySnowVolume = it.snow?.threeHourlyVolume,
                     weatherDescription = it.weather.firstOrNull()?.description,
-                    windSpeed = it.wind?.speed
+                    windSpeed = it.wind?.speed,
+                    temp = it.forecastMain.temp
                 )
             }
         }

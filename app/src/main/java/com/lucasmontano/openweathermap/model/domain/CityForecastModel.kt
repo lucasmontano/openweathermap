@@ -7,5 +7,6 @@ data class CityForecastModel(
     val threeHourlyRainVolume: Double?,
     var threeHourlySnowVolume: Double?,
     var windSpeed: Double?,
-    var weatherDescription: String?
+    var weatherDescription: String?,
+    var temp: Double
 )
