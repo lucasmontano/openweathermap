@@ -10,6 +10,7 @@ That's a sample project showing how to consume the openweathermap API.
 - Bookmark a location
 - Visualize all bookmarked locations in the map
 - Remove a bookmark
+- **DARK** Mode
 
 ## TODO LIST
 - One way data flow between Ui and ViewModel (implement a state reducer)
@@ -19,6 +20,7 @@ That's a sample project showing how to consume the openweathermap API.
 - Five+ days forecast
 
 ![alt text](https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582227671.png)
+![alt text](https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582236767.png)
 ![alt text](https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582227679.png)
-![alt text](https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582227696.png)
+![alt text](https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582236762.png)
 ![alt text](https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582227701.png)
