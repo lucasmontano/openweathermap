@@ -5,16 +5,65 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/surface_color"
-    android:padding="@dimen/default_padding"
     app:behavior_hideable="true"
     app:behavior_peekHeight="0dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/sun"
+        android:layout_width="@dimen/sun_size"
+        android:layout_height="0dp"
+        android:paddingEnd="-50dp"
+        android:src="@drawable/sun"
+        app:layout_constraintBottom_toTopOf="@+id/overview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/cloud"
+        android:layout_width="@dimen/cloud_size"
+        android:layout_height="0dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="-45dp"
+        android:paddingBottom="5dp"
+        android:src="@drawable/cloud"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/sun"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sun" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/cloudShadow"
+        android:layout_width="@dimen/sun_size"
+        android:layout_height="0dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="-45dp"
+        android:paddingBottom="5dp"
+        android:src="@drawable/cloud_shadow"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/sun"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sun" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/rain"
+        android:layout_width="@dimen/cloud_size"
+        android:layout_height="0dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="-45dp"
+        android:paddingBottom="5dp"
+        android:src="@drawable/rain"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/sun"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sun" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_small"
+        android:padding="@dimen/default_padding"
         android:text="Amsterdam"
         android:textColor="@color/color_on_surface"
         android:textSize="@dimen/text_large"
@@ -23,23 +72,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
+        android:id="@+id/view"
         android:layout_width="0dp"
         android:layout_height="4dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name"
+        android:background="@color/secondary_variant_color"
         app:layout_constraintEnd_toEndOf="@+id/name"
-        android:background="@color/secondary_variant_color" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/maxMin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_padding"
         android:layout_marginTop="@dimen/margin_regular"
         android:layout_marginBottom="@dimen/margin_regular"
         android:text="@string/max_min"
-        android:textStyle="bold"
         android:textColor="@color/color_on_surface"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/name"
         app:layout_constraintTop_toBottomOf="@+id/name" />
 
@@ -47,55 +97,61 @@
         android:id="@+id/temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginStart="@dimen/default_padding"
+        android:layout_marginTop="@dimen/margin_huge"
         android:text="@string/temp"
         android:textColor="@color/color_on_surface"
         android:textSize="@dimen/text_huge"
-        app:layout_constraintStart_toStartOf="@+id/maxMin"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/maxMin" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_padding"
         android:layout_marginBottom="@dimen/margin_regular"
         android:text="@string/description"
         android:textColor="@color/color_on_surface"
         android:textSize="@dimen/text_regular"
         android:textStyle="bold"
-        android:layout_marginStart="@dimen/margin_small"
-        app:layout_constraintStart_toStartOf="@+id/temp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/temp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/humidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_padding"
+        android:layout_marginTop="@dimen/margin_huge"
         android:drawableStart="@drawable/ic_humidity"
-        android:layout_marginTop="@dimen/margin_large"
-        android:text="@string/humidity"
         android:drawablePadding="@dimen/default_padding"
+        android:text="@string/humidity"
         android:textColor="@color/color_on_surface"
         android:textSize="@dimen/text_regular"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/temp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/overview"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginStart="@dimen/margin_regular"
+        android:layout_marginTop="@dimen/margin_huge"
+        android:layout_marginEnd="@dimen/margin_regular"
+        android:lineHeight="@dimen/line_height"
         android:text="@string/overview"
         android:textColor="@color/color_on_surface"
         android:textSize="@dimen/text_regular"
-        android:lineHeight="@dimen/line_height"
-        app:layout_constraintStart_toStartOf="@+id/temp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/humidity" />
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_regular"
         android:text="@string/bookmark"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent" />

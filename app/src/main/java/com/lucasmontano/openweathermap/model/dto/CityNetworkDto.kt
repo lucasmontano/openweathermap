@@ -22,5 +22,7 @@ data class CityNetworkDto(
     @SerializedName("weather")
     var weather: List<WeatherNetworkDto>,
     @SerializedName("sys")
-    var sys: ApiSysObjectNetworkDto?
+    var sys: ApiSysObjectNetworkDto?,
+    @SerializedName("clouds")
+    var clouds: CloudsNetworkDto?
 )

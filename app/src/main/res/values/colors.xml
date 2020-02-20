@@ -11,4 +11,8 @@
     <color name="color_on_secondary">#000000</color>
     <color name="color_on_error">#000000</color>
     <color name="color_on_surface">#212121</color>
+    <color name="cloud">#04808080</color>
+    <color name="cloud_shadow">#40808080</color>
+    <color name="sun">#ffea00</color>
+    <color name="rain">#0057ff</color>
 </resources>

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -88,6 +90,55 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
             cityForecast.windSpeed.toString(),
             cityForecast.pressure.toString()
         )
+        sun.visibility = View.VISIBLE
+        if (cityForecast.clouds > 10) {
+
+            val animCloud: Animation = ScaleAnimation(
+                0f, 1f * cityForecast.clouds / 100,
+                1f, 1f,
+                Animation.RELATIVE_TO_PARENT, 0.5f,
+                Animation.RELATIVE_TO_PARENT, 0.5f
+            )
+            animCloud.fillAfter = true
+            animCloud.duration = 1000
+            cloud.startAnimation(animCloud)
+
+            val animShadown: Animation = ScaleAnimation(
+                0f, 1f * cityForecast.clouds / 100,
+                1f, 1f,
+                Animation.RELATIVE_TO_PARENT, 0.5f,
+                Animation.RELATIVE_TO_PARENT, 0.5f
+            )
+            animShadown.fillAfter = true
+            animShadown.duration = 900
+            cloudShadow.startAnimation(animShadown)
+
+            if (cityForecast.weatherDescription?.contains("rain") == true) {
+                val animRain: Animation = ScaleAnimation(
+                    0f, 1f * cityForecast.clouds / 100,
+                    1f, 1f,
+                    Animation.RELATIVE_TO_PARENT, 0.5f,
+                    Animation.RELATIVE_TO_PARENT, 0.5f
+                )
+                animRain.fillAfter = true
+                animRain.duration = 1000
+                rain.startAnimation(animRain)
+                rain.visibility = View.VISIBLE
+            } else {
+                rain.visibility = View.GONE
+            }
+
+            cloud.visibility = View.VISIBLE
+            cloudShadow.visibility = View.VISIBLE
+
+        } else {
+            cloud.visibility = View.GONE
+            cloudShadow.visibility = View.GONE
+
+            if (cityForecast.weatherDescription?.contains("rain") == false) {
+                rain.visibility = View.GONE
+            }
+        }
     }
 
     override fun onCameraMove() {

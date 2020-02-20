@@ -18,8 +18,8 @@ class MapViewModel(private var getWeatherUseCase: GetWeatherUseCase): ViewModel(
                     name = it.name,
                     lat = it.coord.lat,
                     lon = it.coord.lon,
-                    threeHourlyRainVolume = it.rain?.threeHourlyVolume,
-                    threeHourlySnowVolume = it.snow?.threeHourlyVolume,
+                    threeHourlyRainVolume = it.rain?.threeHourlyVolume ?: 0.toDouble(),
+                    threeHourlySnowVolume = it.snow?.threeHourlyVolume ?: 0.toDouble(),
                     weatherDescription = it.weather.firstOrNull()?.description,
                     windSpeed = it.wind?.speed,
                     temp = it.forecastMain.temp.toInt(),
@@ -27,7 +27,8 @@ class MapViewModel(private var getWeatherUseCase: GetWeatherUseCase): ViewModel(
                     tempMin = it.forecastMain.tempMin.toInt(),
                     humidity = it.forecastMain.humidity,
                     pressure = it.forecastMain.pressure,
-                    feelsLike = it.forecastMain.feelsLike.toInt()
+                    feelsLike = it.forecastMain.feelsLike.toInt(),
+                    clouds = it.clouds?.all ?: 0
                 )
             }
         }
