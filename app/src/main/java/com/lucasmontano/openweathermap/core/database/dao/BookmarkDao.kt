@@ -1,15 +1,12 @@
 package com.lucasmontano.openweathermap.core.database.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.lucasmontano.openweathermap.core.database.entities.Bookmark
 
 @Dao
 interface BookmarkDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(bookmark: Bookmark): Long
 
     @Delete
