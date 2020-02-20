@@ -15,9 +15,11 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.lucasmontano.openweathermap.R
 import com.lucasmontano.openweathermap.map.viewmodel.MapViewModel
+import kotlinx.android.synthetic.main.fragment_maps.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MapsFragment : Fragment(), OnMapReadyCallback {
+class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListener,
+    GoogleMap.OnCameraIdleListener {
 
     private val mapViewModel: MapViewModel by viewModel()
     private lateinit var mMap: GoogleMap
@@ -46,10 +48,25 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
+        mMap.setOnCameraMoveListener(this)
+        mMap.setOnCameraIdleListener(this)
+
         mapViewModel.pinForecastLiveData.observe(this, Observer {
             val coord = LatLng(it.lat, it.lon)
             mMap.addMarker(MarkerOptions().position(coord).title(it.name))
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(coord))
         })
+    }
+
+    override fun onCameraMove() {
+        mMap.clear()
+        pinImageView.visibility = View.VISIBLE
+    }
+
+    override fun onCameraIdle() {
+        pinImageView.visibility = View.GONE
+        mapViewModel.refreshPinForecast(
+            mMap.cameraPosition.target.latitude,
+            mMap.cameraPosition.target.longitude
+        )
     }
 }
