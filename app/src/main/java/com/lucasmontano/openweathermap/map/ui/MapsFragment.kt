@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
@@ -16,9 +17,10 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.card.MaterialCardView
 import com.lucasmontano.openweathermap.R
 import com.lucasmontano.openweathermap.map.viewmodel.MapViewModel
-import com.lucasmontano.openweathermap.model.domain.CityForecastModel
+import com.lucasmontano.openweathermap.model.domain.LocationWeatherModel
 import kotlinx.android.synthetic.main.bottom_sheet_city.*
 import kotlinx.android.synthetic.main.fragment_maps.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -26,7 +28,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListener,
     GoogleMap.OnCameraIdleListener {
 
-    private lateinit var sheetBehavior: BottomSheetBehavior<ConstraintLayout>
+    private var isExploring: Boolean = true
+    private lateinit var sheetBehavior: BottomSheetBehavior<MaterialCardView>
     private val mapViewModel: MapViewModel by viewModel()
     private lateinit var mMap: GoogleMap
 
@@ -40,7 +43,19 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sheetBehavior = BottomSheetBehavior.from(cityBottomSheetLayout)
+        val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
 
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    bookmarkToggleButton.show()
+                } else {
+                    bookmarkToggleButton.hide()
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+        }
+        sheetBehavior.addBottomSheetCallback(bottomSheetCallback)
         addMap()
     }
 
@@ -58,43 +73,72 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
         mMap.setOnCameraMoveListener(this)
         mMap.setOnCameraIdleListener(this)
 
-        mapViewModel.pinForecastLiveData.observe(this, Observer { cityForecast ->
-            val markerOptions = MarkerOptions()
-                .position(LatLng(cityForecast.lat, cityForecast.lon))
-                .title(cityForecast.name)
-            mMap.addMarker(markerOptions).apply {
-                snippet = "${cityForecast.weatherDescription} ( ${cityForecast.temp} )"
-                showInfoWindow()
-            }
+        mapViewModel.pinWeatherLiveData.observe(this, Observer { locationWeatherModel ->
+            addMarker(locationWeatherModel)
             mMap.setOnInfoWindowClickListener {
-                expandMarker(cityForecast)
+                expandMarker(locationWeatherModel)
             }
         })
+
+        mapViewModel.bookmarksWeatherLiveData.observe(this, Observer {
+            it.forEach { locationWeather ->
+                addMarker(locationWeather)
+            }
+        })
+
+        bookmarkToggleButton.setOnClickListener {
+            mMap.clear()
+            isExploring = if (isExploring) {
+                mapViewModel.loadBookmarks()
+                bookmarkToggleButton.text = getString(R.string.hide_bookmark)
+                bookmarkToggleButton.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_adjust_pin)
+                false
+            } else {
+                bookmarkToggleButton.text = getString(R.string.show_bookmark)
+                bookmarkToggleButton.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_bookmark)
+                true
+            }
+        }
     }
 
-    private fun expandMarker(cityForecast: CityForecastModel) {
+    private fun addMarker(locationWeatherModel: LocationWeatherModel) {
+        val markerOptions = MarkerOptions()
+            .position(LatLng(locationWeatherModel.lat, locationWeatherModel.lon))
+            .title(locationWeatherModel.name)
+        mMap.addMarker(markerOptions).apply {
+            snippet = "${locationWeatherModel.weatherDescription} ( ${locationWeatherModel.temp} )"
+            showInfoWindow()
+        }
+    }
+
+    private fun expandMarker(locationWeather: LocationWeatherModel) {
         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        name.text = cityForecast.name.capitalize()
+        name.text = locationWeather.name.capitalize()
         maxMin.text = getString(
             R.string.max_min,
-            cityForecast.tempMax.toString(),
-            cityForecast.tempMin.toString()
+            locationWeather.tempMax.toString(),
+            locationWeather.tempMin.toString()
         )
-        description.text = cityForecast.weatherDescription?.capitalize()
-        temp.text = getString(R.string.temp, cityForecast.temp.toString())
-        humidity.text = getString(R.string.humidity, cityForecast.humidity.toString())
+        description.text = locationWeather.weatherDescription?.capitalize()
+        temp.text = getString(R.string.temp, locationWeather.temp.toString())
+        humidity.text = getString(R.string.humidity, locationWeather.humidity.toString())
         overview.text = getString(
             R.string.overview,
-            cityForecast.temp.toString(),
-            cityForecast.feelsLike.toString(),
-            cityForecast.windSpeed.toString(),
-            cityForecast.pressure.toString()
+            locationWeather.temp.toString(),
+            locationWeather.feelsLike.toString(),
+            locationWeather.windSpeed.toString(),
+            locationWeather.pressure.toString()
         )
         sun.visibility = View.VISIBLE
-        if (cityForecast.clouds > 10) {
+
+        bookmark.setOnClickListener {
+            mapViewModel.bookmarkLocation(locationWeather)
+        }
+
+        if (locationWeather.clouds > 10) {
 
             val animCloud: Animation = ScaleAnimation(
-                0f, 1f * cityForecast.clouds / 100,
+                0f, 1f * locationWeather.clouds / 100,
                 1f, 1f,
                 Animation.RELATIVE_TO_PARENT, 0.5f,
                 Animation.RELATIVE_TO_PARENT, 0.5f
@@ -104,7 +148,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
             cloud.startAnimation(animCloud)
 
             val animShadown: Animation = ScaleAnimation(
-                0f, 1f * cityForecast.clouds / 100,
+                0f, 1f * locationWeather.clouds / 100,
                 1f, 1f,
                 Animation.RELATIVE_TO_PARENT, 0.5f,
                 Animation.RELATIVE_TO_PARENT, 0.5f
@@ -113,9 +157,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
             animShadown.duration = 900
             cloudShadow.startAnimation(animShadown)
 
-            if (cityForecast.weatherDescription?.contains("rain") == true) {
+            if (locationWeather.weatherDescription?.contains("rain") == true) {
                 val animRain: Animation = ScaleAnimation(
-                    0f, 1f * cityForecast.clouds / 100,
+                    0f, 1f * locationWeather.clouds / 100,
                     1f, 1f,
                     Animation.RELATIVE_TO_PARENT, 0.5f,
                     Animation.RELATIVE_TO_PARENT, 0.5f
@@ -135,18 +179,23 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
             cloud.visibility = View.GONE
             cloudShadow.visibility = View.GONE
 
-            if (cityForecast.weatherDescription?.contains("rain") == false) {
+            if (locationWeather.weatherDescription?.contains("rain") == false) {
                 rain.visibility = View.GONE
             }
         }
     }
 
     override fun onCameraMove() {
-        mMap.clear()
-        pinImageView.visibility = View.VISIBLE
+        if (isExploring) {
+            mMap.clear()
+            pinImageView.visibility = View.VISIBLE
+        } else {
+            pinImageView.visibility = View.GONE
+        }
     }
 
     override fun onCameraIdle() {
+        if (!isExploring) return
         pinImageView.visibility = View.GONE
         mapViewModel.refreshPinForecast(
             mMap.cameraPosition.target.latitude,

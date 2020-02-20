@@ -7,4 +7,7 @@
     <string name="description">Sunny</string>
     <string name="humidity">%s %%</string>
     <string name="overview">Right now is %1$s°C and feels like %2$s°C outside. The wind is blowing around %3$s km/h and the pressure is %4$s hPa</string>
+    <string name="remove_bookmark">Remove from bookmarks</string>
+    <string name="show_bookmark">Show bookmarks</string>
+    <string name="hide_bookmark">Explore locations</string>
 </resources>

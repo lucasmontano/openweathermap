@@ -1,6 +1,8 @@
 package com.lucasmontano.openweathermap.model.domain
 
-data class CityForecastModel(
+data class LocationWeatherModel(
+    var id: Int,
+    var isBookmarked: Boolean = false,
     var name: String,
     val lat: Double,
     val lon: Double,

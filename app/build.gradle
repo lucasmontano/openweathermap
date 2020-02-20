@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
@@ -41,6 +40,10 @@ dependencies {
     implementation 'org.koin:koin-android:2.0.1'
     implementation 'org.koin:koin-androidx-scope:2.0.1'
     implementation 'org.koin:koin-androidx-viewmodel:2.0.1'
+
+    implementation 'androidx.room:room-runtime:2.2.4'
+    implementation 'androidx.room:room-ktx:2.2.4'
+    kapt 'androidx.room:room-compiler:2.2.4'
 
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.2'
 
