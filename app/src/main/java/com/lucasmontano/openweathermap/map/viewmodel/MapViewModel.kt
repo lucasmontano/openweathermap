@@ -22,7 +22,12 @@ class MapViewModel(private var getWeatherUseCase: GetWeatherUseCase): ViewModel(
                     threeHourlySnowVolume = it.snow?.threeHourlyVolume,
                     weatherDescription = it.weather.firstOrNull()?.description,
                     windSpeed = it.wind?.speed,
-                    temp = it.forecastMain.temp
+                    temp = it.forecastMain.temp.toInt(),
+                    tempMax = it.forecastMain.tempMax.toInt(),
+                    tempMin = it.forecastMain.tempMin.toInt(),
+                    humidity = it.forecastMain.humidity,
+                    pressure = it.forecastMain.pressure,
+                    feelsLike = it.forecastMain.feelsLike.toInt()
                 )
             }
         }

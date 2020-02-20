@@ -2,4 +2,11 @@
     <dimen name="default_padding">16dp</dimen>
     <dimen name="margin_small">4dp</dimen>
     <dimen name="margin_regular">16dp</dimen>
+
+    <dimen name="text_regular">16sp</dimen>
+    <dimen name="text_large">28sp</dimen>
+    <dimen name="text_huge">80sp</dimen>
+
+    <dimen name="margin_large">45dp</dimen>
+    <dimen name="line_height">25sp</dimen>
 </resources>

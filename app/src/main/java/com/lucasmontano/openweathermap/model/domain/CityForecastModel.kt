@@ -8,5 +8,10 @@ data class CityForecastModel(
     var threeHourlySnowVolume: Double?,
     var windSpeed: Double?,
     var weatherDescription: String?,
-    var temp: Double
+    var temp: Int,
+    var tempMax: Int,
+    var tempMin: Int,
+    var humidity: Int,
+    var pressure: Int,
+    var feelsLike: Int
 )

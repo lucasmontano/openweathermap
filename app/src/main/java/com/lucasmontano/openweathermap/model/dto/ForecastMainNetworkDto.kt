@@ -10,7 +10,9 @@ data class ForecastMainNetworkDto(
     @SerializedName("temp_max")
     var tempMax: Double,
     @SerializedName("pressure")
-    var pressure: Double,
+    var pressure: Int,
+    @SerializedName("feels_like")
+    var feelsLike: Double,
     @SerializedName("sea_level")
     var seaLevel: Double,
     @SerializedName("grnd_level")

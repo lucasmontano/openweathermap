@@ -2,4 +2,9 @@
     <string name="app_name">Openweathermap</string>
     <string name="title_activity_main">Current weather</string>
     <string name="bookmark">Bookmark this location</string>
+    <string name="max_min">M %1$s ° / L %2$s °</string>
+    <string name="temp">%s °</string>
+    <string name="description">Sunny</string>
+    <string name="humidity">%s %%</string>
+    <string name="overview">Right now is %1$s°C and feels like %2$s°C outside. The wind is blowing around %3$s km/h and the pressure is %4$s hPa</string>
 </resources>

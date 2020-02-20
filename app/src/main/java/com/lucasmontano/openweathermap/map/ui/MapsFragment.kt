@@ -72,7 +72,22 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
 
     private fun expandMarker(cityForecast: CityForecastModel) {
         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        description.text = cityForecast.weatherDescription
+        name.text = cityForecast.name.capitalize()
+        maxMin.text = getString(
+            R.string.max_min,
+            cityForecast.tempMax.toString(),
+            cityForecast.tempMin.toString()
+        )
+        description.text = cityForecast.weatherDescription?.capitalize()
+        temp.text = getString(R.string.temp, cityForecast.temp.toString())
+        humidity.text = getString(R.string.humidity, cityForecast.humidity.toString())
+        overview.text = getString(
+            R.string.overview,
+            cityForecast.temp.toString(),
+            cityForecast.feelsLike.toString(),
+            cityForecast.windSpeed.toString(),
+            cityForecast.pressure.toString()
+        )
     }
 
     override fun onCameraMove() {
