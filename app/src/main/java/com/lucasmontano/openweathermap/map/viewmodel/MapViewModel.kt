@@ -32,12 +32,14 @@ class MapViewModel(
     fun bookmarkLocation(locationWeather: LocationWeatherModel) {
         viewModelScope.launch {
             addBookmarkUseCase.execute(locationWeather)
+            loadBookmarks()
         }
     }
 
     fun removeBookMark(locationWeather: LocationWeatherModel) {
         viewModelScope.launch {
             removeBookmarkUseCase.execute(locationWeather)
+            loadBookmarks()
         }
     }
 
