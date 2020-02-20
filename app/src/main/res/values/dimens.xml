@@ -1,3 +1,5 @@
 <resources>
     <dimen name="default_padding">16dp</dimen>
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_regular">16dp</dimen>
 </resources>

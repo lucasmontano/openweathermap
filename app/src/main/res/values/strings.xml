@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Openweathermap</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Current weather</string>
     <string name="bookmark">Bookmark this location</string>
 </resources>
