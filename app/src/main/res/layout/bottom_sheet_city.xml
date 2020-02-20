@@ -12,7 +12,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/margin_regular">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/sun"
@@ -154,11 +155,21 @@
             app:layout_constraintTop_toBottomOf="@+id/humidity" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/bookmark"
+            android:id="@+id/addBookmarkButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_regular"
             android:text="@string/bookmark"
+            android:textAllCaps="false"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/removeBookmarkButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_regular"
+            android:text="@string/remove_bookmark"
             android:textAllCaps="false"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent" />

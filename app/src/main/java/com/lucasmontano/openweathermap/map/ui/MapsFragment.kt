@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -72,15 +71,18 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
 
         mMap.setOnCameraMoveListener(this)
         mMap.setOnCameraIdleListener(this)
+        mMap.setOnInfoWindowClickListener {
+            if (it.tag is LocationWeatherModel) {
+                expandMarker(it.tag as LocationWeatherModel)
+            }
+        }
 
         mapViewModel.pinWeatherLiveData.observe(this, Observer { locationWeatherModel ->
             addMarker(locationWeatherModel)
-            mMap.setOnInfoWindowClickListener {
-                expandMarker(locationWeatherModel)
-            }
         })
 
         mapViewModel.bookmarksWeatherLiveData.observe(this, Observer {
+            mMap.clear()
             it.forEach { locationWeather ->
                 addMarker(locationWeather)
             }
@@ -91,11 +93,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
             isExploring = if (isExploring) {
                 mapViewModel.loadBookmarks()
                 bookmarkToggleButton.text = getString(R.string.hide_bookmark)
-                bookmarkToggleButton.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_adjust_pin)
+                bookmarkToggleButton.icon =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_adjust_pin)
                 false
             } else {
                 bookmarkToggleButton.text = getString(R.string.show_bookmark)
-                bookmarkToggleButton.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_bookmark)
+                bookmarkToggleButton.icon =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_bookmark)
                 true
             }
         }
@@ -106,6 +110,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
             .position(LatLng(locationWeatherModel.lat, locationWeatherModel.lon))
             .title(locationWeatherModel.name)
         mMap.addMarker(markerOptions).apply {
+            tag = locationWeatherModel
             snippet = "${locationWeatherModel.weatherDescription} ( ${locationWeatherModel.temp} )"
             showInfoWindow()
         }
@@ -131,58 +136,116 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
         )
         sun.visibility = View.VISIBLE
 
-        bookmark.setOnClickListener {
+        addBookmarkButton.setOnClickListener {
             mapViewModel.bookmarkLocation(locationWeather)
+            addBookmarkButton.visibility = View.GONE
+            removeBookmarkButton.visibility = View.VISIBLE
         }
 
-        if (locationWeather.clouds > 10) {
+        removeBookmarkButton.setOnClickListener {
+            mapViewModel.removeBookMark(locationWeather)
+            removeBookmarkButton.visibility = View.GONE
+            addBookmarkButton.visibility = View.VISIBLE
+        }
 
-            val animCloud: Animation = ScaleAnimation(
-                0f, 1f * locationWeather.clouds / 100,
-                1f, 1f,
-                Animation.RELATIVE_TO_PARENT, 0.5f,
-                Animation.RELATIVE_TO_PARENT, 0.5f
-            )
-            animCloud.fillAfter = true
-            animCloud.duration = 1000
-            cloud.startAnimation(animCloud)
-
-            val animShadown: Animation = ScaleAnimation(
-                0f, 1f * locationWeather.clouds / 100,
-                1f, 1f,
-                Animation.RELATIVE_TO_PARENT, 0.5f,
-                Animation.RELATIVE_TO_PARENT, 0.5f
-            )
-            animShadown.fillAfter = true
-            animShadown.duration = 900
-            cloudShadow.startAnimation(animShadown)
-
-            if (locationWeather.weatherDescription?.contains("rain") == true) {
-                val animRain: Animation = ScaleAnimation(
-                    0f, 1f * locationWeather.clouds / 100,
-                    1f, 1f,
-                    Animation.RELATIVE_TO_PARENT, 0.5f,
-                    Animation.RELATIVE_TO_PARENT, 0.5f
-                )
-                animRain.fillAfter = true
-                animRain.duration = 1000
-                rain.startAnimation(animRain)
-                rain.visibility = View.VISIBLE
-            } else {
-                rain.visibility = View.GONE
-            }
-
-            cloud.visibility = View.VISIBLE
-            cloudShadow.visibility = View.VISIBLE
-
+        if (!isExploring) {
+            removeBookmarkButton.visibility = View.VISIBLE
+            addBookmarkButton.visibility = View.GONE
         } else {
-            cloud.visibility = View.GONE
-            cloudShadow.visibility = View.GONE
+            addBookmarkButton.visibility = View.VISIBLE
+            removeBookmarkButton.visibility = View.GONE
+        }
+
+        if (locationWeather.clouds >= 10) {
+            showCloudAnim(locationWeather)
+            if (locationWeather.weatherDescription?.contains("rain") == true) {
+                showRainAnim(locationWeather)
+            } else {
+                hideRainAnim()
+            }
+        } else {
+            hideCloudAnim()
 
             if (locationWeather.weatherDescription?.contains("rain") == false) {
-                rain.visibility = View.GONE
+                hideRainAnim()
             }
         }
+    }
+
+    private fun hideRainAnim() {
+        val animRain: Animation = ScaleAnimation(
+            1f, 0f,
+            1f, 1f,
+            Animation.RELATIVE_TO_PARENT, 0.5f,
+            Animation.RELATIVE_TO_PARENT, 0.5f
+        )
+        animRain.fillAfter = true
+        animRain.duration = 1000
+        rain.startAnimation(animRain)
+        rain.visibility = View.GONE
+    }
+
+    private fun hideCloudAnim() {
+        val animCloud: Animation = ScaleAnimation(
+            1f, 0f,
+            1f, 1f,
+            Animation.RELATIVE_TO_PARENT, 0.5f,
+            Animation.RELATIVE_TO_PARENT, 0.5f
+        )
+        animCloud.fillAfter = true
+        animCloud.duration = 1000
+        cloud.startAnimation(animCloud)
+
+        val animShadown: Animation = ScaleAnimation(
+            1f, 0f,
+            1f, 1f,
+            Animation.RELATIVE_TO_PARENT, 0.5f,
+            Animation.RELATIVE_TO_PARENT, 0.5f
+        )
+        animShadown.fillAfter = true
+        animShadown.duration = 900
+        cloudShadow.startAnimation(animShadown)
+
+        cloud.visibility = View.GONE
+        cloudShadow.visibility = View.GONE
+    }
+
+    private fun showRainAnim(locationWeather: LocationWeatherModel) {
+        val animRain: Animation = ScaleAnimation(
+            0f, 1f * locationWeather.clouds / 100,
+            1f, 1f,
+            Animation.RELATIVE_TO_PARENT, 0.5f,
+            Animation.RELATIVE_TO_PARENT, 0.5f
+        )
+        animRain.fillAfter = true
+        animRain.duration = 1000
+        rain.startAnimation(animRain)
+        rain.visibility = View.VISIBLE
+    }
+
+    private fun showCloudAnim(locationWeather: LocationWeatherModel) {
+        val animCloud: Animation = ScaleAnimation(
+            0f, 1f * locationWeather.clouds / 100,
+            1f, 1f,
+            Animation.RELATIVE_TO_PARENT, 0.5f,
+            Animation.RELATIVE_TO_PARENT, 0.5f
+        )
+        animCloud.fillAfter = true
+        animCloud.duration = 1000
+        cloud.startAnimation(animCloud)
+
+        val animShadown: Animation = ScaleAnimation(
+            0f, 1f * locationWeather.clouds / 100,
+            1f, 1f,
+            Animation.RELATIVE_TO_PARENT, 0.5f,
+            Animation.RELATIVE_TO_PARENT, 0.5f
+        )
+        animShadown.fillAfter = true
+        animShadown.duration = 900
+        cloudShadow.startAnimation(animShadown)
+
+        cloud.visibility = View.VISIBLE
+        cloudShadow.visibility = View.VISIBLE
     }
 
     override fun onCameraMove() {
