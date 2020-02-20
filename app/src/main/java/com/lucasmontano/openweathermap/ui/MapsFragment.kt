@@ -1,4 +1,4 @@
-package com.lucasmontano.openweathermap
+package com.lucasmontano.openweathermap.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +12,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.lucasmontano.openweathermap.R
 
 class MapsFragment : Fragment(), OnMapReadyCallback {
 
