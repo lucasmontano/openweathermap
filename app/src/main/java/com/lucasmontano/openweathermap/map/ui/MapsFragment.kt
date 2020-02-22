@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.card.MaterialCardView
+import com.lucasmontano.openweathermap.IOnBackPressed
 import com.lucasmontano.openweathermap.R
 import com.lucasmontano.openweathermap.map.viewmodel.MapViewModel
 import com.lucasmontano.openweathermap.model.domain.LocationWeatherModel
@@ -25,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_maps.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListener,
-    GoogleMap.OnCameraIdleListener {
+    GoogleMap.OnCameraIdleListener, IOnBackPressed {
 
     private var isExploring: Boolean = true
     private lateinit var sheetBehavior: BottomSheetBehavior<MaterialCardView>
@@ -264,5 +265,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
             mMap.cameraPosition.target.latitude,
             mMap.cameraPosition.target.longitude
         )
+    }
+
+    override fun onBackPressed(): Boolean {
+        return if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+            sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            true
+        } else {
+            false
+        }
     }
 }
