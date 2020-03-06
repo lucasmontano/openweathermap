@@ -20,8 +20,5 @@ This's a sample project showing how to consume the openweathermap API.
 - Search functionality
 - Five+ days forecast
 
-![alt text](https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582227671.png)
-![alt text](https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582236767.png)
-![alt text](https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582227679.png)
-![alt text](https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582236762.png)
-![alt text](https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582227701.png)
+<img src="https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582227671.png" width="200" height="400" /> <img src="https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582236767.png" width="200" height="400" /> <img src="https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582227679.png" width="200" height="400" /> <img src="https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582236762.png" width="200" height="400" /> <img src="https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582227701.png" width="200" height="400" />
+
