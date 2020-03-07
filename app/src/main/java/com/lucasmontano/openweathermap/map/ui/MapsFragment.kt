@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -26,7 +27,7 @@ import kotlinx.android.synthetic.main.fragment_maps.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListener,
-    GoogleMap.OnCameraIdleListener, IOnBackPressed {
+    GoogleMap.OnCameraIdleListener, GoogleMap.OnMapClickListener, IOnBackPressed {
 
     private var isExploring: Boolean = true
     private lateinit var sheetBehavior: BottomSheetBehavior<MaterialCardView>
@@ -72,6 +73,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
 
         mMap.setOnCameraMoveListener(this)
         mMap.setOnCameraIdleListener(this)
+        mMap.setOnMapClickListener(this)
         mMap.setOnInfoWindowClickListener {
             if (it.tag is LocationWeatherModel) {
                 expandMarker(it.tag as LocationWeatherModel)
@@ -273,6 +275,16 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
             true
         } else {
             false
+        }
+    }
+
+    override fun onMapClick(latLng: LatLng?) {
+        if (isExploring) {
+            mMap.clear()
+            pinImageView.visibility = View.VISIBLE
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+        } else {
+            pinImageView.visibility = View.GONE
         }
     }
 }
