@@ -1,41 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
 
-        <FrameLayout
-            android:id="@+id/mapContainerLayout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/pinImageView"
+            <FrameLayout
+                android:id="@+id/mapContainerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/pinImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_adjust_pin" />
+        </RelativeLayout>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/bookmarkToggleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_adjust_pin" />
-    </RelativeLayout>
+            android:layout_margin="@dimen/margin_regular"
+            android:text="@string/show_bookmark"
+            app:icon="@drawable/ic_bookmark"
+            app:iconTint="@color/color_on_primary"
+            android:textColor="@color/color_on_primary"
+            app:layout_anchor="@id/cityBottomSheetLayout"
+            app:layout_anchorGravity="end|top"
+            android:layout_gravity="bottom|end" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/bookmarkToggleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_regular"
-        android:text="@string/show_bookmark"
-        app:icon="@drawable/ic_bookmark"
-        app:iconTint="@color/color_on_primary"
-        android:textColor="@color/color_on_primary"
-        app:layout_anchor="@id/cityBottomSheetLayout"
-        app:layout_anchorGravity="end|top"
-        android:layout_gravity="bottom|end"/>
+        <include layout="@layout/bottom_sheet_city" />
 
-    <include layout="@layout/bottom_sheet_city" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

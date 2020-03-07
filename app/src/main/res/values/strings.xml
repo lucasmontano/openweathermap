@@ -10,4 +10,5 @@
     <string name="remove_bookmark">Remove from bookmarks</string>
     <string name="show_bookmark">Show bookmarks</string>
     <string name="hide_bookmark">Explore locations</string>
+    <string name="pin_content_description">Round icon in the middle of the screen</string>
 </resources>

@@ -1,185 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cityBottomSheetLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginStart="@dimen/margin_regular"
-    android:layout_marginTop="@dimen/margin_large"
-    android:layout_marginEnd="@dimen/margin_regular"
-    android:background="@color/surface_color"
-    android:padding="0dp"
-    app:behavior_hideable="true"
-    app:behavior_peekHeight="0dp"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ScrollView
+    <data>
+        <variable
+            name="locationWeatherVB"
+            type="com.lucasmontano.openweathermap.model.domain.LocationWeatherModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cityBottomSheetLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/margin_regular"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginEnd="@dimen/margin_regular"
+        android:background="@color/surface_color"
+        android:padding="0dp"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/sun"
-                android:layout_width="@dimen/sun_size"
-                android:layout_height="0dp"
-                android:paddingEnd="-50dp"
-                android:src="@drawable/sun"
-                app:layout_constraintBottom_toTopOf="@+id/overview"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/view" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/cloud"
-                android:layout_width="@dimen/cloud_size"
-                android:layout_height="0dp"
-                android:paddingTop="5dp"
-                android:paddingEnd="-50dp"
-                android:paddingBottom="5dp"
-                android:src="@drawable/cloud"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/sun"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/sun" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/cloudShadow"
-                android:layout_width="@dimen/sun_size"
-                android:layout_height="0dp"
-                android:paddingTop="5dp"
-                android:paddingEnd="-50dp"
-                android:paddingBottom="5dp"
-                android:src="@drawable/cloud_shadow"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/sun"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/sun" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/rain"
-                android:layout_width="@dimen/cloud_size"
-                android:layout_height="0dp"
-                android:paddingTop="5dp"
-                android:paddingEnd="-45dp"
-                android:paddingBottom="5dp"
-                android:src="@drawable/rain"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/sun"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/sun" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:padding="@dimen/default_padding"
-                android:text="Amsterdam"
-                android:textColor="@color/color_on_surface"
-                android:textSize="@dimen/text_large"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:id="@+id/view"
-                android:layout_width="0dp"
-                android:layout_height="4dp"
-                android:background="@color/secondary_variant_color"
-                app:layout_constraintEnd_toEndOf="@+id/name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/maxMin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_padding"
-                android:layout_marginTop="@dimen/margin_regular"
-                android:layout_marginBottom="@dimen/margin_regular"
-                android:text="@string/max_min"
-                android:textColor="@color/color_on_surface"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/name"
-                app:layout_constraintTop_toBottomOf="@+id/name" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_padding"
-                android:layout_marginTop="@dimen/margin_huge"
-                android:text="@string/temp"
-                android:textColor="@color/color_on_surface"
-                android:textSize="@dimen/text_huge"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/maxMin" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_padding"
-                android:layout_marginBottom="@dimen/margin_regular"
-                android:text="@string/description"
-                android:textColor="@color/color_on_surface"
-                android:textSize="@dimen/text_regular"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/temp" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/humidity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/default_padding"
-                android:layout_marginTop="@dimen/margin_huge"
-                android:drawableStart="@drawable/ic_humidity"
-                android:drawablePadding="@dimen/default_padding"
-                android:text="@string/humidity"
-                android:textColor="@color/color_on_surface"
-                android:textSize="@dimen/text_regular"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/overview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_regular"
-                android:layout_marginTop="@dimen/margin_huge"
-                android:layout_marginEnd="@dimen/margin_regular"
-                android:lineHeight="@dimen/line_height"
-                android:text="@string/overview"
-                android:textColor="@color/color_on_surface"
-                android:textSize="@dimen/text_regular"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/humidity" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/addBookmarkButton"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_regular"
-                android:text="@string/bookmark"
-                android:textAllCaps="false"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/overview" />
+                android:layout_height="wrap_content">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/removeBookmarkButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_regular"
-                android:text="@string/remove_bookmark"
-                android:textAllCaps="false"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/overview" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/sun"
+                    android:layout_width="@dimen/sun_size"
+                    android:layout_height="0dp"
+                    android:paddingEnd="-50dp"
+                    android:src="@drawable/sun"
+                    app:layout_constraintBottom_toTopOf="@+id/overview"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/view" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-</com.google.android.material.card.MaterialCardView>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/cloud"
+                    android:layout_width="@dimen/cloud_size"
+                    android:layout_height="0dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="-50dp"
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/cloud"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/sun"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/sun" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/cloudShadow"
+                    android:layout_width="@dimen/sun_size"
+                    android:layout_height="0dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="-50dp"
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/cloud_shadow"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/sun"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/sun" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/rain"
+                    android:layout_width="@dimen/cloud_size"
+                    android:layout_height="0dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="-45dp"
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/rain"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/sun"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/sun" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:padding="@dimen/default_padding"
+                    android:text="@{locationWeatherVB.name}"
+                    android:textColor="@color/color_on_surface"
+                    android:textSize="@dimen/text_large"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Amsterdam" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="0dp"
+                    android:layout_height="4dp"
+                    android:background="@color/secondary_variant_color"
+                    app:layout_constraintEnd_toEndOf="@+id/name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/name" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/maxMin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_padding"
+                    android:layout_marginTop="@dimen/margin_regular"
+                    android:layout_marginBottom="@dimen/margin_regular"
+                    android:text="@{String.format(@string/max_min, locationWeatherVB.tempMax, locationWeatherVB.tempMin)}"
+                    android:textColor="@color/color_on_surface"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/name"
+                    app:layout_constraintTop_toBottomOf="@+id/name"
+                    tools:text="@string/max_min" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_padding"
+                    android:layout_marginTop="@dimen/margin_huge"
+                    android:text="@{String.format(@string/temp, locationWeatherVB.temp)}"
+                    android:textColor="@color/color_on_surface"
+                    android:textSize="@dimen/text_huge"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/maxMin"
+                    tools:text="@string/temp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_padding"
+                    android:layout_marginBottom="@dimen/margin_regular"
+                    android:text="@{locationWeatherVB.weatherDescription}"
+                    android:textColor="@color/color_on_surface"
+                    android:textSize="@dimen/text_regular"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/temp"
+                    tools:text="@string/description" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/humidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_padding"
+                    android:layout_marginTop="@dimen/margin_huge"
+                    android:drawableStart="@drawable/ic_humidity"
+                    android:drawablePadding="@dimen/default_padding"
+                    android:text="@{String.format(@string/humidity, locationWeatherVB.humidity)}"
+                    android:textColor="@color/color_on_surface"
+                    android:textSize="@dimen/text_regular"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/description"
+                    tools:text="@string/humidity" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/overview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_regular"
+                    android:layout_marginTop="@dimen/margin_huge"
+                    android:layout_marginEnd="@dimen/margin_regular"
+                    android:lineHeight="@dimen/line_height"
+                    android:text="@{String.format(@string/overview, locationWeatherVB.temp, locationWeatherVB.feelsLike, locationWeatherVB.windSpeed, locationWeatherVB.pressure)}"
+                    android:textColor="@color/color_on_surface"
+                    android:textSize="@dimen/text_regular"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/humidity"
+                    tools:text="@string/overview" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/addBookmarkButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_regular"
+                    android:text="@string/bookmark"
+                    android:textAllCaps="false"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@+id/overview" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/removeBookmarkButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_regular"
+                    android:text="@string/remove_bookmark"
+                    android:textAllCaps="false"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@+id/overview"
+                    tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </com.google.android.material.card.MaterialCardView>
+</layout>
