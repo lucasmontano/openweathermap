@@ -133,7 +133,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
 
     private fun expandMarker(locationWeather: LocationWeatherModel) {
         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        bottomSheetDataBinding.locationWeatherVB = locationWeather
+        bottomSheetDataBinding.locationWeather = locationWeather
 
         bottomSheetDataBinding.sun.visibility = View.VISIBLE
 

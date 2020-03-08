@@ -5,7 +5,7 @@
 
     <data>
         <variable
-            name="locationWeatherVB"
+            name="locationWeather"
             type="com.lucasmontano.openweathermap.model.domain.LocationWeatherModel" />
     </data>
 
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_small"
                     android:padding="@dimen/default_padding"
-                    android:text="@{locationWeatherVB.name}"
+                    android:text="@{locationWeather.name}"
                     android:textColor="@color/color_on_surface"
                     android:textSize="@dimen/text_large"
                     android:textStyle="bold"
@@ -109,7 +109,7 @@
                     android:layout_marginStart="@dimen/default_padding"
                     android:layout_marginTop="@dimen/margin_regular"
                     android:layout_marginBottom="@dimen/margin_regular"
-                    android:text="@{String.format(@string/max_min, locationWeatherVB.tempMax, locationWeatherVB.tempMin)}"
+                    android:text="@{String.format(@string/max_min, locationWeather.tempMax, locationWeather.tempMin)}"
                     android:textColor="@color/color_on_surface"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/name"
@@ -122,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/default_padding"
                     android:layout_marginTop="@dimen/margin_huge"
-                    android:text="@{String.format(@string/temp, locationWeatherVB.temp)}"
+                    android:text="@{String.format(@string/temp, locationWeather.temp)}"
                     android:textColor="@color/color_on_surface"
                     android:textSize="@dimen/text_huge"
                     app:layout_constraintStart_toStartOf="parent"
@@ -135,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/default_padding"
                     android:layout_marginBottom="@dimen/margin_regular"
-                    android:text="@{locationWeatherVB.weatherDescription}"
+                    android:text="@{locationWeather.weatherDescription}"
                     android:textColor="@color/color_on_surface"
                     android:textSize="@dimen/text_regular"
                     android:textStyle="bold"
@@ -151,7 +151,7 @@
                     android:layout_marginTop="@dimen/margin_huge"
                     android:drawableStart="@drawable/ic_humidity"
                     android:drawablePadding="@dimen/default_padding"
-                    android:text="@{String.format(@string/humidity, locationWeatherVB.humidity)}"
+                    android:text="@{String.format(@string/humidity, locationWeather.humidity)}"
                     android:textColor="@color/color_on_surface"
                     android:textSize="@dimen/text_regular"
                     android:textStyle="bold"
@@ -167,7 +167,7 @@
                     android:layout_marginTop="@dimen/margin_huge"
                     android:layout_marginEnd="@dimen/margin_regular"
                     android:lineHeight="@dimen/line_height"
-                    android:text="@{String.format(@string/overview, locationWeatherVB.temp, locationWeatherVB.feelsLike, locationWeatherVB.windSpeed, locationWeatherVB.pressure)}"
+                    android:text="@{String.format(@string/overview, locationWeather.temp, locationWeather.feelsLike, locationWeather.windSpeed, locationWeather.pressure)}"
                     android:textColor="@color/color_on_surface"
                     android:textSize="@dimen/text_regular"
                     app:layout_constraintEnd_toEndOf="parent"
