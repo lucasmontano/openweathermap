@@ -22,3 +22,8 @@ This's a sample project showing how to consume the openweathermap API.
 
 <img src="https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582227671.png" width="200" height="400" /> <img src="https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582236767.png" width="200" height="400" /> <img src="https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582227679.png" width="200" height="400" /> <img src="https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582236762.png" width="200" height="400" /> <img src="https://github.com/lucasmontano/openweathermap/blob/master/readme/Screenshot_1582227701.png" width="200" height="400" />
 
+## Other Platforms
+- React Native: https://github.com/lucasmontano/openweathermap-reactnative
+- iOS: https://github.com/lucasmontano/openweathermap-ios
+- Flutter: https://github.com/lucasmontano/openweathermap-flutter
+
