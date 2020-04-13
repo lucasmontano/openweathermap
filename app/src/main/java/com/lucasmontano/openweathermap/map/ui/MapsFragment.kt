@@ -1,5 +1,6 @@
 package com.lucasmontano.openweathermap.map.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.card.MaterialCardView
@@ -80,12 +82,24 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
         mapFragment.getMapAsync(this)
     }
 
+    override fun onConfigurationChanged(config: Configuration) {
+        super.onConfigurationChanged(config)
+        mMap.setMapStyle(getMapStyle(config))
+    }
+
+    private fun getMapStyle(config: Configuration): MapStyleOptions? {
+        return when(config.uiMode and Configuration.UI_MODE_NIGHT_MASK){
+            Configuration.UI_MODE_NIGHT_YES -> MapStyleOptions.loadRawResourceStyle(context, R.raw.dark_style)
+            else -> null
+        }
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
         mMap.setOnCameraMoveListener(this)
         mMap.setOnCameraIdleListener(this)
         mMap.setOnMapClickListener(this)
+        mMap.setMapStyle(getMapStyle(resources.configuration))
         mMap.setOnInfoWindowClickListener {
             if (it.tag is LocationWeatherModel) {
                 expandMarker(it.tag as LocationWeatherModel)
