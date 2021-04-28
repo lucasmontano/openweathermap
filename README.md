@@ -150,3 +150,5 @@ Open Weather on Other Platforms:
 ---
 
 Made with ♥ Enjoy it!
+
+Sei que nao vai aceitar, é somente um teste.
